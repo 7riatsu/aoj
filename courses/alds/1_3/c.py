@@ -53,35 +53,27 @@ class DoublyLinkedList:
             self.tail = self.tail.prev
 
     def show_value(self):
-        elms = []
         ele = self.head
+        elms = []
 
         while ele is not None:
             elms.append(ele.val)
             ele = ele.next
-        print(" ".join(map(str, elms)))
-
+        print(*elms)
 
 l = DoublyLinkedList()
 
 n = int(input())
 
 for _ in range(n):
-    line = input()
-    command = num = 0
-    if line[6] == " ":
-        command, num = map(str, line.split())
-        num = int(num)
-    else:
-        command = line
-
-    if command == "insert":
-        l.insert(num)
-    elif command == "delete":
-        l.delete(num)
-    elif command == "deleteFirst":
+    command = input().strip().split()
+    if command[0] == "insert":
+        l.insert(command[1])
+    elif command[0] == "delete":
+        l.delete(command[1])
+    elif command[0] == "deleteFirst":
         l.delete_first()
-    elif command == "deleteLast":
+    elif command[0] == "deleteLast":
         l.delete_last()
     else:
         pass
