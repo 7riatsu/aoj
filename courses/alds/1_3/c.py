@@ -23,15 +23,15 @@ class DoublyLinkedList:
         node = self.head
 
         while node is not None:
-            if node.val == value:
-                if node.prev == None and node.next == None:
+            if node.val == value: # TODO: ここの `==` と `is` の使い分けを調べる
+                if node.prev is None and node.next is None:
                     self.head = self.tail = None
                 else:
-                    if node.prev != None:
+                    if node.prev is not None:
                         node.prev.next = node.next
                     else:
                         self.head = self.head.next
-                    if node.next != None:
+                    if node.next is not None:
                         node.next.prev = node.prev
                     else:
                         self.tail = self.tail.prev
@@ -39,43 +39,47 @@ class DoublyLinkedList:
             node = node.next
 
     def delete_first(self):
-        if self.head == self.tail:
+        if self.head is self.tail:
             self.head = self.tail = None
         else:
             self.head.next.prev = None
             self.head = self.head.next
 
     def delete_last(self):
-        if self.head == self.tail:
+        if self.head is self.tail:
             self.head = self.tail = None
         else:
             self.tail.prev.next = None
             self.tail = self.tail.prev
 
-    def show_value(self):
+    def get_elements(self):
         ele = self.head
         elms = []
 
         while ele is not None:
             elms.append(ele.val)
             ele = ele.next
-        print(*elms)
+        return " ".join(elms)
 
-l = DoublyLinkedList()
+def _main():
+    from sys import stdin
 
-n = int(input())
+    n = int(input())
 
-for _ in range(n):
-    command = input().strip().split()
-    if command[0] == "insert":
-        l.insert(command[1])
-    elif command[0] == "delete":
-        l.delete(command[1])
-    elif command[0] == "deleteFirst":
-        l.delete_first()
-    elif command[0] == "deleteLast":
-        l.delete_last()
-    else:
-        pass
+    lst = DoublyLinkedList()
 
-l.show_value()
+    for _ in range(n):
+        cmd = stdin.readline().strip().split()
+        if cmd[0] == 'insert':
+            lst.insert(cmd[1])
+        elif cmd[0] == 'delete':
+            lst.delete(cmd[1])
+        elif cmd[0] == 'deleteFirst':
+            lst.delete_first()
+        elif cmd[0] == 'deleteLast':
+            lst.delete_last()
+
+    print(lst.get_elements())
+
+if __name__ == '__main__':
+    _main()
